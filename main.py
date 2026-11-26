@@ -7,11 +7,22 @@ Python 3 standard library only, deterministic, no network.
 """
 import os
 
-SENTENCE = (
-    "One star: the locals scream at glowing rectangles all day, "
-    "the weather offers no refunds, and gravity is non-negotiable "
-    "\u2014 but the tacos alone justify a second invasion."
-)
+# The review is assembled from named parts so each complaint and the
+# food praise can be edited independently; the joined sentence is the
+# judged entry and must stay byte-identical.
+PARTS = [
+    "One star: the locals scream at glowing rectangles all day,",
+    "the weather offers no refunds,",
+    "and gravity is non-negotiable \u2014",
+    "but the tacos alone justify a second invasion.",
+]
+
+SENTENCE = " ".join(PARTS)
+
+# The entry is a single sentence; guard against accidental edits that
+# would change its length or wording.
+assert len(SENTENCE) == 168, f"entry sentence changed: {len(SENTENCE)} chars"
+assert SENTENCE.endswith("second invasion.")
 
 
 def main():
